@@ -1,7 +1,7 @@
 with kaynak as (
     select *
     from read_csv_auto(
-        '../data/raw/hotel_booking/hotel_bookings.csv',
+        '../../data/raw/hotel_booking/hotel_bookings.csv',
         header = true,
         nullstr = ['NULL', 'NA']
     )
