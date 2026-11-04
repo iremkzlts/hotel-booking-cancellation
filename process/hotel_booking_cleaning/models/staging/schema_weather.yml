@@ -1,0 +1,22 @@
+version: 2
+
+models:
+  - name: stg_weather
+    description: "Faro ve Lizbon için günlük hava durumu (Open-Meteo)."
+    columns:
+      - name: weather_date
+        description: "Gözlem tarihi."
+        data_tests:
+          - not_null
+      - name: city
+        description: "Şehir: Faro veya Lisbon."
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['Faro', 'Lisbon']
+      - name: hotel
+        description: "Şehre bağlanan otel tipi (Faro = Resort Hotel, Lizbon = City Hotel)."
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['Resort Hotel', 'City Hotel']
