@@ -1,0 +1,74 @@
+version: 2
+
+models:
+  - name: dim_date
+    description: Her satir bir takvim gunu. Dashboard'daki tarih filtreleri icin.
+    columns:
+      - name: date_day
+        description: Takvim gunu (anahtar).
+        data_tests:
+          - unique
+          - not_null
+      - name: month_name_tr
+        description: Turkce ay adi.
+      - name: weekday_tr
+        description: Turkce gun adi.
+      - name: is_weekend
+        description: Cumartesi veya Pazar ise true.
+      - name: season
+        description: Mevsim (Kis, Ilkbahar, Yaz, Sonbahar).
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['Kış', 'İlkbahar', 'Yaz', 'Sonbahar']
+
+  - name: mart_monthly_cancellations
+    description: >
+      Her satir bir otel + bir varis ayi + kopya isareti. KPI kartlari ve aylik trend icin
+      ozet tablo. Dashboard'da oran hesaplarken cancel_rate ortalamasi ALINMAMALI;
+      toplam canceled_bookings / toplam total_bookings kullanilmali.
+    columns:
+      - name: hotel
+        data_tests:
+          - not_null
+      - name: month_start
+        description: Ayin ilk gunu.
+        data_tests:
+          - not_null
+      - name: is_duplicate
+        description: Bu satirdaki rezervasyonlar kopya isaretli mi. Dashboard'daki kopya dilimleyicisi icin.
+        data_tests:
+          - not_null
+      - name: total_bookings
+        description: O ay o otele gelen rezervasyon sayisi.
+      - name: canceled_bookings
+        description: Bunlardan iptal edilenler.
+      - name: cancel_rate
+        description: Iptal orani = canceled_bookings / total_bookings (0 ile 1 arasi).
+      - name: avg_adr
+        description: Ortalama gecelik fiyat (iptal edilenler ve 0 EUR fiyatlilar dahil tum rezervasyonlar).
+      - name: realized_revenue
+        description: Gerceklesen toplam gelir.
+      - name: lost_revenue
+        description: Iptaller nedeniyle kaybedilen toplam gelir.
+
+  - name: mart_weather_cancellations
+    description: >
+      Her satir bir otel + yagis durumu + sicaklik araligi + kopya isareti. Hava durumunun
+      iptal oranina etkisini gostermek icin dashboard ozeti. Oranlar toplamlardan hesaplanmali.
+    columns:
+      - name: hotel
+        data_tests:
+          - not_null
+      - name: is_rainy_day
+        description: Varis gunu yagisli mi.
+      - name: temp_band
+        description: Sicaklik araligi.
+      - name: is_duplicate
+        description: Bu satirdaki rezervasyonlar kopya isaretli mi.
+        data_tests:
+          - not_null
+      - name: total_bookings
+        description: Bu gruptaki rezervasyon sayisi.
+      - name: cancel_rate
+        description: Iptal orani (0-1).
