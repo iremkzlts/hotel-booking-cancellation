@@ -49,3 +49,4 @@ select
     reservation_status,
     reservation_status_date
 from kaynak
+where adr is null or adr >= 0

@@ -1,0 +1,28 @@
+version: 2
+
+models:
+  - name: stg_hotel_bookings
+    description: "Kaggle Hotel Booking Demand verisinin temizlenmiş hali. Her satır bir rezervasyon."
+    columns:
+      - name: booking_id
+        description: "Satır numarasından üretilen rezervasyon kimliği (ham veride kimlik sütunu yok)."
+        data_tests:
+          - not_null
+          - unique
+      - name: hotel
+        description: "Otel tipi: Resort Hotel veya City Hotel."
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['Resort Hotel', 'City Hotel']
+      - name: is_canceled
+        description: "Hedef değişken: 1 = iptal edildi, 0 = iptal edilmedi."
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [0, 1]
+      - name: arrival_date
+        description: "Yıl, ay ve günden üretilen varış tarihi."
+        data_tests:
+          - not_null
