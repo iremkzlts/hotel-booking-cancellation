@@ -49,4 +49,5 @@ select
     reservation_status,
     reservation_status_date
 from kaynak
-where adr is null or adr >= 0
+where (adr is null or adr >= 0)
+  and adults + coalesce(children, 0) + babies > 0
