@@ -1,0 +1,18 @@
+version: 2
+
+models:
+  - name: stg_eurocontrol
+    description: "Temizlenmiş Eurocontrol uçuş ve gecikme verileri"
+    columns:
+      - name: APT_ICAO
+        description: "Havalimanının ICAO kodu"
+        data_tests:
+          - not_null
+
+      - name: YEAR
+        description: "Verinin ait olduğu yıl"
+        data_tests:
+          - not_null
+
+      - name: DLY_APT_ARR_1
+        description: "Havalimanı varış gecikmesi"
