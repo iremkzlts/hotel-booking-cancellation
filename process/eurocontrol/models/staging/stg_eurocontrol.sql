@@ -1,5 +1,74 @@
-SELECT *
-FROM read_csv_auto(
-    '../../data/processed/eurocontrol/eurocontrol_combined.csv',
-    header = true
+
+WITH raw_data AS (
+
+    SELECT *
+    FROM read_csv_auto(
+        '../../data/raw/eurocontrol/apt_dly_*.csv',
+        header = true,
+        union_by_name = true
+    )
+
+),
+
+cleaned_data AS (
+
+    SELECT
+        TRY_CAST(YEAR AS INTEGER) AS YEAR,
+        TRY_CAST(MONTH_NUM AS INTEGER) AS MONTH_NUM,
+
+        NULLIF(TRIM(MONTH_MON), '') AS MONTH_MON,
+
+        TRY_CAST(FLT_DATE AS TIMESTAMPTZ) AS FLT_DATE,
+
+        NULLIF(UPPER(TRIM(APT_ICAO)), '') AS APT_ICAO,
+        NULLIF(TRIM(APT_NAME), '') AS APT_NAME,
+        NULLIF(TRIM(STATE_NAME), '') AS STATE_NAME,
+
+        TRY_CAST(FLT_ARR_1 AS BIGINT) AS FLT_ARR_1,
+
+        TRY_CAST(DLY_APT_ARR_1 AS DOUBLE) AS DLY_APT_ARR_1,
+        TRY_CAST(DLY_APT_ARR_A_1 AS DOUBLE) AS DLY_APT_ARR_A_1,
+        TRY_CAST(DLY_APT_ARR_C_1 AS DOUBLE) AS DLY_APT_ARR_C_1,
+        TRY_CAST(DLY_APT_ARR_D_1 AS DOUBLE) AS DLY_APT_ARR_D_1,
+        TRY_CAST(DLY_APT_ARR_E_1 AS DOUBLE) AS DLY_APT_ARR_E_1,
+        TRY_CAST(DLY_APT_ARR_G_1 AS DOUBLE) AS DLY_APT_ARR_G_1,
+        TRY_CAST(DLY_APT_ARR_I_1 AS DOUBLE) AS DLY_APT_ARR_I_1,
+        TRY_CAST(DLY_APT_ARR_M_1 AS DOUBLE) AS DLY_APT_ARR_M_1,
+        TRY_CAST(DLY_APT_ARR_N_1 AS DOUBLE) AS DLY_APT_ARR_N_1,
+        TRY_CAST(DLY_APT_ARR_O_1 AS DOUBLE) AS DLY_APT_ARR_O_1,
+        TRY_CAST(DLY_APT_ARR_P_1 AS DOUBLE) AS DLY_APT_ARR_P_1,
+        TRY_CAST(DLY_APT_ARR_R_1 AS DOUBLE) AS DLY_APT_ARR_R_1,
+        TRY_CAST(DLY_APT_ARR_S_1 AS DOUBLE) AS DLY_APT_ARR_S_1,
+        TRY_CAST(DLY_APT_ARR_T_1 AS DOUBLE) AS DLY_APT_ARR_T_1,
+        TRY_CAST(DLY_APT_ARR_V_1 AS DOUBLE) AS DLY_APT_ARR_V_1,
+        TRY_CAST(DLY_APT_ARR_W_1 AS DOUBLE) AS DLY_APT_ARR_W_1,
+        TRY_CAST(DLY_APT_ARR_NA_1 AS DOUBLE) AS DLY_APT_ARR_NA_1,
+
+        TRY_CAST(FLT_ARR_1_DLY AS DOUBLE) AS FLT_ARR_1_DLY,
+        TRY_CAST(FLT_ARR_1_DLY_15 AS DOUBLE) AS FLT_ARR_1_DLY_15,
+
+        NULLIF(TRIM(ATFM_VERSION), '') AS ATFM_VERSION
+
+    FROM raw_data
+
+),
+
+filtered_data AS (
+
+    SELECT *
+    FROM cleaned_data
+    WHERE APT_ICAO IN ('LPFR', 'LPPT')
+      AND FLT_DATE >= TIMESTAMPTZ '2015-07-01 00:00:00+00'
+      AND FLT_DATE < TIMESTAMPTZ '2017-09-01 00:00:00+00'
+
 )
+
+SELECT
+    *,
+    CASE
+        WHEN DLY_APT_ARR_1 IS NULL
+            THEN 'Gecikme verisi eksik'
+        ELSE 'Gecikme verisi mevcut'
+    END AS GECIKME_DURUMU
+
+FROM filtered_data
