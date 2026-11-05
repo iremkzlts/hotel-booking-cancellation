@@ -3,24 +3,96 @@ version: 2
 models:
   - name: mart_flight_delay_cancellations
     description: >
-      Her satir bir otel + gecikme gunu mu + kopya isareti. Varis gunu havalimani
-      gecikmelerinin iptal oranina etkisini gostermek icin dashboard ozeti.
-      Oranlar toplamlardan hesaplanmali.
+      Her satır bir otel, gecikme günü durumu ve kopya işareti kombinasyonunu
+      temsil eder. Varış günü havalimanı gecikmelerinin iptal oranına etkisini
+      incelemek için oluşturulmuştur. Oranlar toplamlardan hesaplanmalıdır.
     columns:
       - name: hotel
         data_tests:
           - not_null
       - name: airport_icao
-        description: Otelin havalimani kodu (LPFR veya LPPT).
+        description: Otelin havalimanı kodu (LPFR veya LPPT).
       - name: is_atfm_delay_day
-        description: Varis gunu havalimaninda ATFM gecikmesi var mi.
+        description: Varış gününde havalimanında ATFM gecikmesi olup olmadığını belirtir.
         data_tests:
           - not_null
       - name: is_duplicate
-        description: Bu satirdaki rezervasyonlar kopya isaretli mi.
+        description: İlgili gruptaki rezervasyonların kopya işaretini belirtir.
         data_tests:
           - not_null
       - name: total_bookings
-        description: Bu gruptaki rezervasyon sayisi.
+        description: İlgili gruptaki toplam rezervasyon sayısı.
       - name: cancel_rate
-        description: Iptal orani (0-1).
+        description: İptal oranı (0-1 aralığında).
+
+  - name: mart_airport_delays
+    description: >
+      Her satır bir havalimanını temsil eder. Eurocontrol verilerinden
+      havalimanı bazında toplam kayıt, gecikme verisi bulunan kayıt,
+      ortalama, maksimum ve minimum gecikme değerlerini özetler.
+    columns:
+      - name: AIRPORT
+        description: Havalimanının ICAO kodu.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['LPFR', 'LPPT']
+      - name: TOPLAM_KAYIT
+        description: İlgili havalimanına ait toplam kaynak kayıt sayısı.
+      - name: GECIKME_VERISI_BULUNAN_KAYIT
+        description: Gecikme verisi bulunan kaynak kayıt sayısı.
+      - name: ORTALAMA_GECIKME
+        description: Havalimanı bazında ortalama gecikme değeri.
+      - name: MAKSIMUM_GECIKME
+        description: Havalimanı bazında maksimum gecikme değeri.
+      - name: MINIMUM_GECIKME
+        description: Havalimanı bazında minimum gecikme değeri.
+
+  - name: mart_yearly_delays
+    description: >
+      Her satır bir yılı temsil eder. Eurocontrol verilerinden yıllık
+      toplam kayıt, gecikme verisi bulunan kayıt, ortalama ve maksimum
+      gecikme değerlerini özetler.
+    columns:
+      - name: YEAR
+        description: Verinin ait olduğu yıl.
+        data_tests:
+          - not_null
+          - unique
+      - name: TOPLAM_KAYIT
+        description: İlgili yıldaki toplam kaynak kayıt sayısı.
+      - name: GECIKME_VERISI_BULUNAN_KAYIT
+        description: Gecikme verisi bulunan kaynak kayıt sayısı.
+      - name: ORTALAMA_GECIKME
+        description: İlgili yıldaki ortalama gecikme değeri.
+      - name: MAKSIMUM_GECIKME
+        description: İlgili yıldaki maksimum gecikme değeri.
+
+  - name: mart_airport_monthly_delay
+    description: >
+      Her satır bir havalimanı ve ay kombinasyonunu temsil eder.
+      Eurocontrol verilerinden aylık toplam kayıt ve gecikme istatistiklerini
+      özetler.
+    columns:
+      - name: AIRPORT
+        description: Havalimanının ICAO kodu.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['LPFR', 'LPPT']
+      - name: AY_BASLANGICI
+        description: İlgili ayın başlangıç tarihi.
+        data_tests:
+          - not_null
+      - name: TOPLAM_UCUS
+        description: İlgili ay ve havalimanı için toplam kaynak kayıt sayısı.
+      - name: GECIKME_VERISI_BULUNAN_UCUS
+        description: Gecikme verisi bulunan kaynak kayıtlarının sayısı.
+      - name: ORTALAMA_GECIKME
+        description: Aylık ortalama varış gecikmesi.
+      - name: MAKSIMUM_GECIKME
+        description: Aylık maksimum varış gecikmesi.
+      - name: MINIMUM_GECIKME
+        description: Aylık minimum varış gecikmesi.
