@@ -73,6 +73,10 @@ models:
                 severity: warn
       - name: precipitation_mm
         description: Varis gunu toplam yagis (mm).
+        data_tests:
+          - not_null:
+              config:
+                  severity: warn
       - name: is_rainy_day
         description: Varis gunu yagis 1 mm veya ustu ise true (meteorolojide yagisli gun esigi).
       - name: temp_band
