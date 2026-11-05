@@ -65,10 +65,10 @@ Satır sayısı: 119.390 ham satırdan 1 negatif fiyatlı, 180 misafirsiz ve 1 u
 
 | Belge | Kapsam | Hazırlayan |
 |---|---|---|
-| [VERI_SOZLUGU_HOTEL_BOOKING.md](VERI_SOZLUGU_HOTEL_BOOKING.md) | Otel rezervasyon verisi | Esma |
-| `VERI_SOZLUGU_WEATHER.md` | Hava durumu verisi | Zehra |
-| `VERI_SOZLUGU_EUROCONTROL.md` | Havalimanı gecikme verisi | İrem |
-| `VERI_SOZLUGU_MART.md` | Mart katmanı | Elif |
+| `VERI_SOZLUGU_HOTEL_BOOKING.md` | Otel rezervasyon verisi | Esma Gül Polat |
+| `VERI_SOZLUGU_WEATHER.md` | Hava durumu verisi | Zehra Aktaş |
+| `VERI_SOZLUGU_EUROCONTROL.md` | Havalimanı gecikme verisi | İrem Kızıltaş |
+| `VERI_SOZLUGU_MART.md` | Mart katmanı | Elif Uyar |
 
 Model ve sütun açıklamaları `dbt docs generate` ile de görülebilir.
 
