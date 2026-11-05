@@ -54,7 +54,7 @@ models:
       - name: is_room_changed
         description: Verilen oda tipi, rezerve edilenden farkli mi.
       - name: adr
-        description: Ortalama gecelik fiyat (Average Daily Rate), Euro.
+        description: Ortalama gecelik fiyat (Average Daily Rate), Euro (varsayim, veri setinde belirtilmemis).
       - name: booking_revenue
         description: Rezervasyonun toplam tutari = adr x total_nights.
         data_tests:
