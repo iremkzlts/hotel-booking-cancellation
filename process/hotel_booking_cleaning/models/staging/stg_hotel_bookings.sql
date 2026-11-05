@@ -51,3 +51,4 @@ select
 from kaynak
 where (adr is null or adr >= 0)
   and adults + coalesce(children, 0) + babies > 0
+  and (adr is null or adr <= 1000)
