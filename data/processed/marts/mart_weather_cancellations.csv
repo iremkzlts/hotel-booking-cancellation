@@ -1,5 +1,5 @@
 hotel,is_rainy_day,temp_band,is_duplicate,total_bookings,canceled_bookings,cancel_rate,avg_precipitation_mm,avg_temp_mean_c
-City Hotel,,15 alti,false,17867,5137,0.2875,,12.6
+City Hotel,,15 alti,false,17866,5136,0.2875,,12.6
 City Hotel,,15 alti,true,6954,4727,0.6798,,12.5
 City Hotel,,15-20,false,17988,5320,0.2958,,17.8
 City Hotel,,15-20,true,11551,7467,0.6464,,17.9
