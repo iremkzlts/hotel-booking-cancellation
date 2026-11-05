@@ -65,10 +65,10 @@ Satır sayısı: 119.390 ham satırdan 1 negatif fiyatlı, 180 misafirsiz ve 1 u
 
 | Belge | Kapsam | Hazırlayan |
 |---|---|---|
-| `VERI_SOZLUGU_HOTEL_BOOKING.md` | Otel rezervasyon verisi | Esma Gül Polat |
-| `VERI_SOZLUGU_WEATHER.md` | Hava durumu verisi | Zehra Aktaş |
-| `VERI_SOZLUGU_EUROCONTROL.md` | Havalimanı gecikme verisi | İrem Kızıltaş |
-| `VERI_SOZLUGU_MART.md` | Mart katmanı | Elif Uyar |
+| [VERI_SOZLUGU_HOTEL_BOOKING.md](VERI_SOZLUGU_HOTEL_BOOKING.md) | Otel rezervasyon verisi | Esma Gül Polat |
+| [VERI_SOZLUGU_WEATHER.md](VERI_SOZLUGU_WEATHER.md) | Hava durumu verisi | Zehra Aktaş |
+| [VERI_SOZLUGU_EUROCONTROL.md](VERI_SOZLUGU_EUROCONTROL.md) | Havalimanı gecikme verisi | İrem Kızıltaş |
+| [VERI_SOZLUGU_MARTS.md](VERI_SOZLUGU_MARTS.md) | Mart katmanı | Elif Uyar |
 
 Model ve sütun açıklamaları `dbt docs generate` ile de görülebilir.
 
@@ -77,6 +77,6 @@ Model ve sütun açıklamaları `dbt docs generate` ile de görülebilir.
 - Kopya satırların gerçek kopya olup olmadığı veriden anlaşılamıyor.
 - Otel konumu varsayıma dayanıyor (Resort Hotel = Faro, City Hotel = Lizbon).
 - `adr` için para birimi veri setinde belirtilmemiş, Euro varsayıldı.
-- Hava durumu ve havalimanı gecikmesi varış gününe ait. Rezervasyon yapılırken bilinmiyor, bu yüzden iptal ile ilişkisi nedensel değil, ilişki olarak yorumlanmalı.
+- Hava durumu (sıcaklık, yağış, rüzgâr) ve havalimanı gecikmesi varış gününe ait. Rezervasyon yapılırken bilinmiyor, bu yüzden iptal ile ilişkisi nedensel değil, ilişki olarak yorumlanmalı.
 - Faro havalimanı için gecikme kayıtları seyrek.
 - `reservation_status`, `reservation_status_date` ve onlardan türeyen gelir sütunları (`realized_revenue`, `lost_revenue`) iptal sonucunu ele verir. İkinci aşamadaki tahmin modelinde kullanılmamalı.
