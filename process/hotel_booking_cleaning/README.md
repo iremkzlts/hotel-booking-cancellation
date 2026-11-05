@@ -42,6 +42,12 @@ dbt docs generate
 dbt docs serve
 ```
 
+## dbt docs
+
+Model ilişkileri ve sütun açıklamaları dbt docs ile görülebilir (`dbt docs generate`, `dbt docs serve`). `fct_bookings` modelinin akış şeması (lineage graph):
+
+![dbt lineage graph](../../dashboard/dbt_lineage.png)
+
 ## Temizlik kararları (otel verisi)
 
 | Karar | Gerekçe |
@@ -77,8 +83,6 @@ Model ve sütun açıklamaları `dbt docs generate` ile de görülebilir.
 
 Rapor: [https://datastudio.google.com/reporting/55dc2678-148c-459a-8ec7-e3a4e050e54b](https://datastudio.google.com/reporting/55dc2678-148c-459a-8ec7-e3a4e050e54b)
 
-![Genel Özet sayfası](../../dashboard/sayfa1_genel_ozet.png)
-
 ### Araç seçimi
 Dashboard için Power BI yerine Looker Studio kullanıldı. Gerekçe: ücretsiz olması, tarayıcıdan çalışması, ekip üyelerinin aynı raporu eş zamanlı düzenleyebilmesi ve tek bağlantıyla paylaşılabilmesi.
 
@@ -102,8 +106,20 @@ dbt ile üretilen mart tabloları (`data/processed/marts/`) CSV olarak Looker St
 Rapor üç sayfadan oluşur. Sayfalarda **hotel**, **tarih aralığı** ve **is_duplicate** filtreleri bulunur.
 
 1. **Genel Özet:** toplam rezervasyon (119.208), iptal oranı (%37,1) ve ortalama günlük fiyat (101,93 €) kartları; aylara göre iptal oranı çizgi grafiği; otel bazında iptal oranı ve kaybedilen gelir (€, varsayılan para birimi) çubuk grafikleri. Rakamlar dbt sorgularıyla doğrulanmıştır.
-2. **Hava Durumu:** sıcaklık bandına ve yağışlı/kuru güne göre iptal oranı.
-3. **Havalimanı Gecikmesi:** gecikmeli ve gecikmesiz günlerde iptal oranı, aylık eğilim. Faro (LPFR) verisi seyrek olduğu için yorumlarken dikkatli olunmalıdır.
+2. **Hava Durumu:** varış günü sıcaklık bandına (15 °C altı, 15-20, 20-25, 25 °C ve üstü) ve yağışlı/kuru güne göre iptal oranı, otel bazında. Yağışlı ve kuru günler arasındaki fark küçüktür (City Hotel %42,0 ve %40,7; Resort Hotel %27,7 ve %28,2).
+3. **Havalimanı Gecikmesi:** gecikme kaydı olan ve olmayan günlerde otel bazında iptal oranı, havalimanı bazında uçuş başına ortalama varış gecikmesi (dakika) ve aylık ortalama günlük toplam gecikme (dakika). Faro (LPFR) verisi seyrek olduğu için yorumlarken dikkatli olunmalıdır.
+
+**Sayfa 1: Genel Özet**
+
+![Genel Özet](../../dashboard/sayfa1_genel_ozet.png)
+
+**Sayfa 2: Hava Durumu**
+
+![Hava Durumu](../../dashboard/sayfa2_hava_durumu.png)
+
+**Sayfa 3: Havalimanı Gecikmesi**
+
+![Havalimanı Gecikmesi](../../dashboard/sayfa3_havalimani_gecikmesi.png)
 
 ### Paylaşım
 Rapor sahibi Elif'tir. Takım üyeleri düzenleyici, bağlantıyı bilen herkes görüntüleyici yetkisine sahiptir.
@@ -111,6 +127,9 @@ Rapor sahibi Elif'tir. Takım üyeleri düzenleyici, bağlantıyı bilen herkes 
 ### Bilinen sınırlar
 - Veriler CSV anlık görüntüsüdür. Mart tabloları dbt ile yenilenirse CSV'ler Looker Studio'da yeniden yüklenmelidir.
 - Hava durumu ve uçuş gecikmesi rezervasyon anında bilinmez. Bulgular nedensellik değil, ilişki gösterir.
+- Havalimanı gecikmesi sayfasında "gecikme kaydı olan" günler neredeyse tamamen City Hotel'e aittir (Resort Hotel için yalnızca 389 rezervasyon). Bu yüzden otel dökümü olmadan yapılan karşılaştırma yanıltıcıdır. Aynı otel içinde gecikme ile iptal oranı arasındaki fark küçüktür (City Hotel: %42,3 ve %41,1).
+- "Gecikme kaydı olmayan gün", gecikme olmadığı anlamına gelmez, o gün için EUROCONTROL'de kayıt bulunmadığı anlamına gelir.
+- Aylık gecikme grafiği, yalnızca gecikme verisi bulunan günlerin ortalamasını gösterir. Faro'da çoğu ayda en fazla birkaç günlük veri vardır.
 - `is_duplicate` filtresi tekrar eden kayıtları ayırmak içindir. Bu kayıtlar silinmemiş, işaretlenmiştir. Filtre boşken iptal oranı %37,1, kopyalar çıkarılınca yaklaşık %27,3'tür.
 
 ## Ekip ve görev dağılımı
