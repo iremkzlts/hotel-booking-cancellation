@@ -20,10 +20,10 @@
 | `fct_bookings` | Bir rezervasyon | 119.208 | Ana tablo. Dashboard detayları ve Bölüm 2 modeli |
 | `dim_date` | Bir takvim günü | 793 | Dashboard tarih filtreleri |
 | `mart_monthly_cancellations` | Otel + ay + kopya işareti | 104 | KPI kartları ve aylık trend |
-| `mart_weather_cancellations` | Otel + yağış + sıcaklık aralığı + kopya işareti | 16* | Hava durumu analizi |
+| `mart_weather_cancellations` | Otel + yağış + sıcaklık aralığı + kopya işareti | 28 | Hava durumu analizi |
 | `mart_flight_delay_cancellations` | Otel + gecikmeli gün + kopya işareti | 8 | Uçuş gecikmesi analizi |
 
-\* Yağış verisi düzeltildiğinde artacak (bkz. "Bilinen sorunlar").
+
 
 ## Tabloların ilişkisi
 
@@ -72,10 +72,10 @@ Eşleşme: `hotel` + `arrival_date` = `stg_weather.hotel` + `weather_date`. Değ
 | Sütun | Tür | Açıklama |
 |---|---|---|
 | `temp_mean_c`, `temp_max_c`, `temp_min_c` | DOUBLE | Varış günü ortalama, en yüksek ve en düşük sıcaklık (°C) |
-| `precipitation_mm` | DOUBLE | Varış günü toplam yağış (mm). **Şu an boş**, bkz. "Bilinen sorunlar" |
-| `rain_mm` | DOUBLE | Varış günü yağmur (mm). **Şu an boş** |
-| `precipitation_hours` | DOUBLE | Yağışlı saat sayısı. Yağış verisi boş olduğu için şu an güvenilir değil |
-| `wind_speed_max_kmh` | DOUBLE | En yüksek rüzgâr hızı (km/sa). **Şu an boş** |
+| `precipitation_mm` | DOUBLE | Varış günü toplam yağış (mm) |
+| `rain_mm` | DOUBLE | Varış günü yağmur (mm) |
+| `precipitation_hours` | DOUBLE | Varış günü yağışlı saat sayısı |
+| `wind_speed_max_kmh` | DOUBLE | Varış günü en yüksek rüzgâr hızı (km/sa) |
 | `is_rainy_day` | BOOLEAN | `precipitation_mm` ≥ 1 ise true (meteorolojide yağışlı gün eşiği) |
 | `temp_band` | VARCHAR | Sıcaklık aralığı: 15 alti, 15-20, 20-25, 25 ve ustu |
 
@@ -163,13 +163,14 @@ Her satır bir takvim günü. Rezervasyonlardaki en erken ve en geç varış tar
 ## Bulgular
 
 - **Uçuş gecikmesi:** Varış günü havalimanı gecikmesiyle iptal arasında belirgin bir ilişki yok. City Hotel'de gecikmeli günlerde iptal oranı yaklaşık %42, gecikmesiz günlerde %41. Resort Hotel'de gecikmeli gün çok az (yaklaşık 390 rezervasyon), karşılaştırma güvenilir değil.
-- **Yorum:** Müşteriler iptal kararını genellikle varıştan haftalar önce veriyor. Varış günündeki hava ve gecikme o anda bilinmiyor. Bu yüzden bu analizler **sebep-sonuç** değil, **ilişki** gösterir.
+- **Yağış:** Varış günü yağışıyla iptal arasında da belirgin bir ilişki yok. City Hotel'de yağışlı günlerde iptal oranı %40,7, yağışsız günlerde %42,0. Resort Hotel'de %28,2 ve %27,7. Rezervasyonların yaklaşık %17'sinin varış günü yağışlı (≥ 1 mm).
+- **Yorum:** Müşteriler iptal kararını genellikle varıştan haftalar önce veriyor. Varış günündeki hava ve gecikme o anda bilinmiyor. Bu yüzden bu analizler **sebep-sonuç** değil, **ilişki** gösterir. İki dış etkenin de belirgin etkisi olmaması, iptali asıl belirleyenin rezervasyonun kendi özellikleri olduğunu düşündürüyor.
 
 ## Bilinen sorunlar
 
 | Sorun | Etkisi | Durum |
 |---|---|---|
-| Ham Open-Meteo dosyalarında yağış, yağmur ve rüzgâr `NaN` | `precipitation_mm`, `rain_mm`, `wind_speed_max_kmh` ve `is_rainy_day` boş. Yağış analizi şu an yapılamıyor | Zehra veriyi yeniden indiriyor. `precipitation_mm` için uyarı testi var (`dbt build` WARN verir) |
+| Ham Open-Meteo dosyalarında yağış, yağmur ve rüzgâr `NaN` idi | Yağış analizi yapılamıyordu | ✅ Çözüldü: Zehra veriyi Historical Weather API'den yeniden indirdi. `precipitation_mm` için uyarı testi var |
 | `meal` sütununda "Undefined" değerleri | Dashboard'da ayrı dilim olarak görünür | Staging kararı (Esma) |
 
 ## Bölüm 2 (model) için notlar
