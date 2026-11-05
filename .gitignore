@@ -6,3 +6,4 @@ logs/
 dbt_packages/
 .ipynb_checkpoints/
 .user.yml
+process/eurocontrol_yedek/
