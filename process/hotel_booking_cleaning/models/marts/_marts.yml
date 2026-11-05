@@ -77,6 +77,29 @@ models:
         description: Varis gunu yagis 1 mm veya ustu ise true (meteorolojide yagisli gun esigi).
       - name: temp_band
         description: Varis gunu ortalama sicaklik araligi (15 alti, 15-20, 20-25, 25 ve ustu).
+      - name: airport_icao
+        description: Otelin havalimani. Resort Hotel -> LPFR (Faro), City Hotel -> LPPT (Lizbon).
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['LPFR', 'LPPT']
+      - name: airport_arrivals
+        description: Varis gunu havalimanina inen IFR ucus sayisi (Eurocontrol).
+        data_tests:
+          - not_null:
+              config:
+                severity: warn
+      - name: atfm_arrival_delay_min
+        description: Varis gunu havalimani ATFM varis gecikmesi (dakika). Bos ise o gun gecikme kaydi yok.
+      - name: atfm_weather_delay_min
+        description: Bu gecikmenin hava durumu (W kodu) kaynakli kismi (dakika).
+      - name: atfm_delay_per_arrival_min
+        description: Ucus basina ortalama ATFM gecikmesi (dakika). Bos gecikme 0 kabul edilir.
+      - name: is_atfm_delay_day
+        description: >
+          Varis gunu havalimaninda ATFM gecikmesi var mi. DIKKAT: rezervasyon yapilirken
+          bu bilgi henuz bilinmez; hava durumu sutunlariyla ayni sinirlilik gecerlidir.
       - name: reservation_status
         description: >
           Rezervasyonun son durumu (Canceled, No-Show, Check-Out). DIKKAT: iptal

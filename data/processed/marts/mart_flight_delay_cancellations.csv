@@ -1,0 +1,9 @@
+hotel,airport_icao,is_atfm_delay_day,is_duplicate,total_bookings,canceled_bookings,cancel_rate,avg_delay_per_arrival_min,avg_airport_arrivals
+City Hotel,LPPT,false,false,21788,6046,0.2775,0.0,243.2
+City Hotel,LPPT,false,true,10971,7411,0.6755,0.0,243.0
+City Hotel,LPPT,true,false,31311,9814,0.3134,1.84,276.6
+City Hotel,LPPT,true,true,15093,9808,0.6498,1.76,270.3
+Resort Hotel,LPFR,false,false,33513,7810,0.233,0.0,81.4
+Resort Hotel,LPFR,false,true,6144,3215,0.5233,0.0,72.7
+Resort Hotel,LPFR,true,false,359,81,0.2256,1.59,99.8
+Resort Hotel,LPFR,true,true,30,14,0.4667,1.18,90.4

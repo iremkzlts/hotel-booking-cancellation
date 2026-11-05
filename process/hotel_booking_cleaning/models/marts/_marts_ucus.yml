@@ -1,0 +1,26 @@
+version: 2
+
+models:
+  - name: mart_flight_delay_cancellations
+    description: >
+      Her satir bir otel + gecikme gunu mu + kopya isareti. Varis gunu havalimani
+      gecikmelerinin iptal oranina etkisini gostermek icin dashboard ozeti.
+      Oranlar toplamlardan hesaplanmali.
+    columns:
+      - name: hotel
+        data_tests:
+          - not_null
+      - name: airport_icao
+        description: Otelin havalimani kodu (LPFR veya LPPT).
+      - name: is_atfm_delay_day
+        description: Varis gunu havalimaninda ATFM gecikmesi var mi.
+        data_tests:
+          - not_null
+      - name: is_duplicate
+        description: Bu satirdaki rezervasyonlar kopya isaretli mi.
+        data_tests:
+          - not_null
+      - name: total_bookings
+        description: Bu gruptaki rezervasyon sayisi.
+      - name: cancel_rate
+        description: Iptal orani (0-1).
