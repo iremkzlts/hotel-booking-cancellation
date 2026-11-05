@@ -27,6 +27,7 @@ Kaggle "Hotel Booking Demand" verisini temizleyen, hava durumu ve havalimanı ge
 | marts | `mart_flight_delay_cancellations` | Havalimanı gecikmesine göre iptal özeti |
 | marts | `mart_airport_delays` | Havalimanı gecikme özeti |
 | marts | `mart_yearly_delays` | Yıllık gecikme özeti |
+| marts | `mart_airport_monthly_delay` | Havalimanı gecikmelerinin aylık özeti |
 
 Staging, intermediate ve mart katmanları ayrı klasörlerdedir: `models/staging`, `models/intermediate`, `models/marts`.
 
@@ -59,7 +60,7 @@ Satır sayısı: 119.390 ham satırdan 1 negatif fiyatlı, 180 misafirsiz ve 1 u
 
 ## Testler
 
-`dbt test` ile çalışır. Otel verisi için başlıca testler: `booking_id` benzersiz ve dolu, `hotel` iki değerden biri, `is_canceled` 0 veya 1 ve dolu, `arrival_date` dolu, negatif fiyat yok, misafirsiz rezervasyon yok. Hava durumu, Eurocontrol ve mart modellerinin testleri kendi şema dosyalarındadır.
+`dbt test` ile çalışır, projede toplam **53 test** vardır ve hepsi geçer. Otel verisi için başlıca testler: `booking_id` benzersiz ve dolu, `hotel` iki değerden biri, `is_canceled` 0 veya 1 ve dolu, `arrival_date` dolu, negatif fiyat yok, misafirsiz rezervasyon yok. Hava durumu, Eurocontrol ve mart modellerinin testleri kendi şema dosyalarındadır.
 
 ## Belgeler
 
@@ -71,6 +72,55 @@ Satır sayısı: 119.390 ham satırdan 1 negatif fiyatlı, 180 misafirsiz ve 1 u
 | [VERI_SOZLUGU_MARTS.md](VERI_SOZLUGU_MARTS.md) | Mart katmanı | Elif Uyar |
 
 Model ve sütun açıklamaları `dbt docs generate` ile de görülebilir.
+
+## Dashboard (Looker Studio)
+
+Rapor: [https://datastudio.google.com/reporting/55dc2678-148c-459a-8ec7-e3a4e050e54b](https://datastudio.google.com/reporting/55dc2678-148c-459a-8ec7-e3a4e050e54b)
+
+![Genel Özet sayfası](../../dashboard/sayfa1_genel_ozet.png)
+
+### Araç seçimi
+Dashboard için Power BI yerine Looker Studio kullanıldı. Gerekçe: ücretsiz olması, tarayıcıdan çalışması, ekip üyelerinin aynı raporu eş zamanlı düzenleyebilmesi ve tek bağlantıyla paylaşılabilmesi.
+
+### Veri kaynakları
+dbt ile üretilen mart tabloları (`data/processed/marts/`) CSV olarak Looker Studio'ya yüklendi ve beş ayrı veri kaynağı olarak rapora bağlandı:
+
+| Veri kaynağı | Kullanım |
+|---|---|
+| `mart_monthly_cancellations` | Genel özet: aylık ve otel bazlı iptal |
+| `mart_weather_cancellations` | Hava durumu analizi |
+| `mart_flight_delay_cancellations` | Havalimanı gecikmesi analizi |
+| `fct_bookings` | Detay ve ek analizler (119.208 rezervasyon) |
+| `dim_date` | Takvim boyutu |
+
+### Ortak alanlar
+- `iptal_orani` = `SUM(canceled_bookings) / SUM(total_bookings)`, yüzde türünde. Hazır `cancel_rate` sütununun toplamı veya ortalaması kullanılmaz, çünkü oranların ortalaması yanlış sonuç verir.
+- `ay_baslangici`: aylık grafiklerde x ekseni olarak kullanılan tarih alanı.
+- Ortalama günlük fiyat, aylık ortalamaların rezervasyon sayısıyla ağırlıklandırılmasıyla hesaplanır: `SUM(avg_adr * total_bookings) / SUM(total_bookings)`. Sonuç dbt ile birebir aynıdır (101,93).
+
+### Rapor yapısı
+Rapor üç sayfadan oluşur. Sayfalarda **hotel**, **tarih aralığı** ve **is_duplicate** filtreleri bulunur.
+
+1. **Genel Özet:** toplam rezervasyon (119.208), iptal oranı (%37,1) ve ortalama günlük fiyat (101,93 €) kartları; aylara göre iptal oranı çizgi grafiği; otel bazında iptal oranı ve kaybedilen gelir (€, varsayılan para birimi) çubuk grafikleri. Rakamlar dbt sorgularıyla doğrulanmıştır.
+2. **Hava Durumu:** sıcaklık bandına ve yağışlı/kuru güne göre iptal oranı.
+3. **Havalimanı Gecikmesi:** gecikmeli ve gecikmesiz günlerde iptal oranı, aylık eğilim. Faro (LPFR) verisi seyrek olduğu için yorumlarken dikkatli olunmalıdır.
+
+### Paylaşım
+Rapor sahibi Elif'tir. Takım üyeleri düzenleyici, bağlantıyı bilen herkes görüntüleyici yetkisine sahiptir.
+
+### Bilinen sınırlar
+- Veriler CSV anlık görüntüsüdür. Mart tabloları dbt ile yenilenirse CSV'ler Looker Studio'da yeniden yüklenmelidir.
+- Hava durumu ve uçuş gecikmesi rezervasyon anında bilinmez. Bulgular nedensellik değil, ilişki gösterir.
+- `is_duplicate` filtresi tekrar eden kayıtları ayırmak içindir. Bu kayıtlar silinmemiş, işaretlenmiştir. Filtre boşken iptal oranı %37,1, kopyalar çıkarılınca yaklaşık %27,3'tür.
+
+## Ekip ve görev dağılımı
+
+| Kişi | Katkı (birinci aşama) |
+|---|---|
+| Esma | Otel rezervasyon verisi: dbt staging ve intermediate katmanları, temizlik kararları, testler, veri sözlüğü, bu README, dashboard Genel Özet sayfası |
+| Zehra | Hava durumu verisi: `stg_weather`, testler, veri sözlüğü, dashboard Hava Durumu sayfası |
+| İrem | EUROCONTROL verisi: `stg_eurocontrol`, havalimanı mart modelleri, veri sözlüğü, repo yönetimi, dashboard Havalimanı Gecikmesi sayfası |
+| Elif | Mart katmanı (`dim_date`, `fct_bookings`, özet martlar), mart veri sözlüğü, dashboard kurulumu ve paylaşımı |
 
 ## Sınırlılıklar
 
