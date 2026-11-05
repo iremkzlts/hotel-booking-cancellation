@@ -1,4 +1,4 @@
-version: 2
+﻿version: 2
 
 models:
   - name: stg_weather
@@ -20,3 +20,20 @@ models:
           - accepted_values:
               arguments:
                 values: ['Resort Hotel', 'City Hotel']
+      - name: precipitation_mm
+        description: "Günlük toplam yağış (mm)."
+        data_tests:
+          - not_null
+      - name: rain_mm
+        description: "Günlük toplam yağmur (mm)."
+        data_tests:
+          - not_null
+      - name: precipitation_hours
+        description: "Günlük yağışlı saat sayısı."
+        data_tests:
+          - not_null
+      - name: wind_speed_max_kmh
+        description: "Günlük en yüksek rüzgâr hızı (km/sa)."
+        data_tests:
+          - not_null
+

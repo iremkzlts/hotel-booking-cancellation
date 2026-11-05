@@ -1,5 +1,7 @@
 with kaynak as (
-    select *
+    select
+        row_number() over () as booking_id,
+        *
     from read_csv_auto(
         '../../data/raw/hotel_booking/hotel_bookings.csv',
         header = true,
@@ -7,7 +9,7 @@ with kaynak as (
     )
 )
 select
-    row_number() over () as booking_id,
+    booking_id,
     hotel,
     is_canceled,
     lead_time,
@@ -51,3 +53,4 @@ select
 from kaynak
 where (adr is null or adr >= 0)
   and adults + coalesce(children, 0) + babies > 0
+  and (adr is null or adr <= 1000)

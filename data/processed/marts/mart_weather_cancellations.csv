@@ -1,17 +1,29 @@
 hotel,is_rainy_day,temp_band,is_duplicate,total_bookings,canceled_bookings,cancel_rate,avg_precipitation_mm,avg_temp_mean_c
-City Hotel,,15 alti,false,17867,5137,0.2875,,12.6
-City Hotel,,15 alti,true,6954,4727,0.6798,,12.5
-City Hotel,,15-20,false,17988,5320,0.2958,,17.8
-City Hotel,,15-20,true,11551,7467,0.6464,,17.9
-City Hotel,,20-25,false,15078,4739,0.3143,,21.7
-City Hotel,,20-25,true,7072,4708,0.6657,,21.5
-City Hotel,,25 ve ustu,false,2166,664,0.3066,,26.7
-City Hotel,,25 ve ustu,true,487,317,0.6509,,26.9
-Resort Hotel,,15 alti,false,7365,1230,0.167,,13.4
-Resort Hotel,,15 alti,true,1424,639,0.4487,,13.4
-Resort Hotel,,15-20,false,11123,2215,0.1991,,17.3
-Resort Hotel,,15-20,true,3049,1586,0.5202,,17.3
-Resort Hotel,,20-25,false,10254,2781,0.2712,,22.6
-Resort Hotel,,20-25,true,1381,788,0.5706,,22.0
-Resort Hotel,,25 ve ustu,false,5130,1665,0.3246,,26.2
-Resort Hotel,,25 ve ustu,true,320,216,0.675,,26.2
+City Hotel,false,15 alti,false,11817,3350,0.2835,0.1,12.5
+City Hotel,false,15 alti,true,4946,3386,0.6846,0.11,12.6
+City Hotel,false,15-20,false,13624,4059,0.2979,0.06,17.9
+City Hotel,false,15-20,true,8657,5628,0.6501,0.08,18.0
+City Hotel,false,20-25,false,15218,4823,0.3169,0.02,21.9
+City Hotel,false,20-25,true,6997,4669,0.6673,0.02,21.6
+City Hotel,false,25 ve ustu,false,2492,775,0.311,0.0,26.7
+City Hotel,false,25 ve ustu,true,615,364,0.5919,0.01,26.9
+City Hotel,true,15 alti,false,5729,1699,0.2966,7.43,12.7
+City Hotel,true,15 alti,true,1973,1330,0.6741,6.08,12.4
+City Hotel,true,15-20,false,3888,1067,0.2744,7.41,17.2
+City Hotel,true,15-20,true,2639,1656,0.6275,7.3,17.5
+City Hotel,true,20-25,false,330,86,0.2606,4.04,21.6
+City Hotel,true,20-25,true,237,186,0.7848,5.1,21.2
+Resort Hotel,false,15 alti,false,5600,908,0.1621,0.06,13.1
+Resort Hotel,false,15 alti,true,871,294,0.3375,0.07,12.9
+Resort Hotel,false,15-20,false,8437,1641,0.1945,0.06,17.4
+Resort Hotel,false,15-20,true,2394,1250,0.5221,0.06,17.3
+Resort Hotel,false,20-25,false,9447,2523,0.2671,0.01,22.7
+Resort Hotel,false,20-25,true,1343,749,0.5577,0.01,22.1
+Resort Hotel,false,25 ve ustu,false,5847,1903,0.3255,0.0,26.4
+Resort Hotel,false,25 ve ustu,true,339,228,0.6726,0.0,26.5
+Resort Hotel,true,15 alti,false,1533,279,0.182,8.65,13.1
+Resort Hotel,true,15 alti,true,430,278,0.6465,6.86,13.1
+Resort Hotel,true,15-20,false,2647,553,0.2089,9.5,17.1
+Resort Hotel,true,15-20,true,722,369,0.5111,8.57,17.2
+Resort Hotel,true,20-25,false,361,84,0.2327,2.67,21.0
+Resort Hotel,true,20-25,true,75,61,0.8133,2.56,21.5
