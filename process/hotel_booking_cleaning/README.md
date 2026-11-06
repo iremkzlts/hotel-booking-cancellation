@@ -66,7 +66,7 @@ Satır sayısı: 119.390 ham satırdan 1 negatif fiyatlı, 180 misafirsiz ve 1 u
 
 ## Testler
 
-`dbt test` ile çalışır, projede toplam **53 test** vardır ve hepsi geçer. Otel verisi için başlıca testler: `booking_id` benzersiz ve dolu, `hotel` iki değerden biri, `is_canceled` 0 veya 1 ve dolu, `arrival_date` dolu, negatif fiyat yok, misafirsiz rezervasyon yok. Hava durumu, Eurocontrol ve mart modellerinin testleri kendi şema dosyalarındadır.
+`dbt test` ile çalışır, projede toplam **60 test** vardır ve hepsi geçer. Otel verisi için başlıca testler: `booking_id` benzersiz ve dolu, `hotel` iki değerden biri, `is_canceled` 0 veya 1 ve dolu, `arrival_date` dolu, negatif fiyat yok, misafirsiz rezervasyon yok. Hava durumu, Eurocontrol ve mart modellerinin testleri kendi şema dosyalarındadır.
 
 ## Belgeler
 
