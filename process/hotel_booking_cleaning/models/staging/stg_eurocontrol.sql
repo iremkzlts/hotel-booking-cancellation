@@ -1,11 +1,7 @@
 WITH raw_data AS (
 
     SELECT *
-    FROM read_csv_auto(
-        '../../data/raw/eurocontrol/apt_dly_*.csv',
-        header = true,
-        union_by_name = true
-    )
+    FROM {{ source('raw', 'eurocontrol_apt_dly') }}
 
 ),
 
