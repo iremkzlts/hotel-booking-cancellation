@@ -1,0 +1,79 @@
+version: 2
+
+# Ham veri kaynakları (data/raw).
+# Staging modelleri ham dosyaları doğrudan okumak yerine {{ source('raw', '...') }} ile bu tanımları kullanır.
+# external_location: dbt-duckdb'nin dosyayı nasıl okuyacağını belirtir. Yollar dbt projesinin klasörüne göredir.
+
+sources:
+  - name: raw
+    description: "Projenin ham veri dosyaları (data/raw klasörü). Bu dosyalar elle değiştirilmez."
+
+    tables:
+      - name: hotel_bookings
+        description: >
+          Kaggle "Hotel Booking Demand" veri seti. Portekiz'de bir tatil oteli (Resort Hotel)
+          ve bir şehir oteli (City Hotel) için 119.390 rezervasyon. Her satır bir rezervasyon.
+        meta:
+          external_location: "read_csv_auto('../../data/raw/hotel_booking/hotel_bookings.csv', header = true, nullstr = ['NULL', 'NA'])"
+        columns:
+          - name: hotel
+            description: "Otel tipi."
+            data_tests:
+              - not_null
+              - accepted_values:
+                  arguments:
+                    values: ['Resort Hotel', 'City Hotel']
+          - name: is_canceled
+            description: "1 = iptal edildi, 0 = edilmedi."
+            data_tests:
+              - not_null
+              - accepted_values:
+                  arguments:
+                    values: [0, 1]
+          - name: arrival_date_year
+            description: "Varış yılı."
+            data_tests:
+              - not_null
+
+      - name: weather_faro
+        description: >
+          Open-Meteo Historical Weather API, Faro için günlük hava durumu (2015-07-01 / 2017-08-31).
+          Dosyanın ilk 4 satırı konum bilgisi ve boş satırdır, atlanır.
+        meta:
+          external_location: "read_csv('../../data/raw/open_meteo/weather_faro.csv', skip = 4, header = false, nullstr = ['NaN', ''], names = ['weather_date', 'temp_mean_c', 'temp_max_c', 'temp_min_c', 'precipitation_mm', 'rain_mm', 'precipitation_hours', 'wind_speed_max_kmh'])"
+        columns:
+          - name: weather_date
+            description: "Gözlem günü."
+            data_tests:
+              - not_null
+              - unique
+
+      - name: weather_lisbon
+        description: >
+          Open-Meteo Historical Weather API, Lizbon için günlük hava durumu (2015-07-01 / 2017-08-31).
+          Dosyanın ilk 4 satırı konum bilgisi ve boş satırdır, atlanır.
+        meta:
+          external_location: "read_csv('../../data/raw/open_meteo/weather_lisbon.csv', skip = 4, header = false, nullstr = ['NaN', ''], names = ['weather_date', 'temp_mean_c', 'temp_max_c', 'temp_min_c', 'precipitation_mm', 'rain_mm', 'precipitation_hours', 'wind_speed_max_kmh'])"
+        columns:
+          - name: weather_date
+            description: "Gözlem günü."
+            data_tests:
+              - not_null
+              - unique
+
+      - name: eurocontrol_apt_dly
+        description: >
+          Eurocontrol havalimanı varış uçuşu ve ATFM gecikme verisi. Yıllık dosyalar
+          (apt_dly_2015.csv, apt_dly_2016.csv, apt_dly_2017.csv) sütun adına göre alt alta birleştirilir.
+          Tüm Avrupa havalimanlarını içerir, staging'de LPFR ve LPPT'ye filtrelenir.
+        meta:
+          external_location: "read_csv_auto('../../data/raw/eurocontrol/apt_dly_*.csv', header = true, union_by_name = true)"
+        columns:
+          - name: APT_ICAO
+            description: "Havalimanının ICAO kodu."
+            data_tests:
+              - not_null
+          - name: FLT_DATE
+            description: "Uçuş tarihi."
+            data_tests:
+              - not_null

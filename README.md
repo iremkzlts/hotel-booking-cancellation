@@ -52,7 +52,7 @@ Predict whether a booking will be cancelled (is_canceled) and serve the model in
 
 ## dbt Project
 
-The project has 12 models and 60 data tests (all passing).
+The project has 12 models and 71 data tests (all passing).
 
 | Layer | Models |
 | --- | --- |

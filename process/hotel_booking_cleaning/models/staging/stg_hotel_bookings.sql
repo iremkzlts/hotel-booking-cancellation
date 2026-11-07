@@ -2,11 +2,7 @@ with kaynak as (
     select
         row_number() over () as booking_id,
         *
-    from read_csv_auto(
-        '../../data/raw/hotel_booking/hotel_bookings.csv',
-        header = true,
-        nullstr = ['NULL', 'NA']
-    )
+    from {{ source('raw', 'hotel_bookings') }}
 )
 select
     booking_id,
