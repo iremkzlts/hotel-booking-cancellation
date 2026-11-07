@@ -98,13 +98,15 @@ dbt ile üretilen mart tabloları (`data/processed/marts/`) CSV olarak Looker St
 - `iptal_orani` = `SUM(canceled_bookings) / SUM(total_bookings)`, yüzde türünde. Hazır `cancel_rate` sütununun toplamı veya ortalaması kullanılmaz, çünkü oranların ortalaması yanlış sonuç verir.
 - `ay_baslangici`: aylık grafiklerde x ekseni olarak kullanılan tarih alanı.
 - Ortalama günlük fiyat, aylık ortalamaların rezervasyon sayısıyla ağırlıklandırılmasıyla hesaplanır: `SUM(avg_adr * total_bookings) / SUM(total_bookings)`. Sonuç dbt ile birebir aynıdır (101,93).
+- Rezervasyon Özellikleri sayfasında iptal oranı doğrudan `fct_bookings` tablosundan hesaplanır: `SUM(is_canceled) / COUNT(booking_id)`.
 
 ### Rapor yapısı
-Rapor üç sayfadan oluşur. Sayfalarda **hotel**, **tarih aralığı** ve **is_duplicate** filtreleri bulunur.
+Rapor dört sayfadan oluşur. Sayfalarda **hotel**, **tarih aralığı** ve **is_duplicate** filtreleri bulunur.
 
 1. **Genel Özet:** toplam rezervasyon (119.208), iptal oranı (%37,1) ve ortalama günlük fiyat (101,93 €) kartları; aylara göre iptal oranı çizgi grafiği; otel bazında iptal oranı ve kaybedilen gelir (€, varsayılan para birimi) çubuk grafikleri. Rakamlar dbt sorgularıyla doğrulanmıştır.
 2. **Hava Durumu:** varış günü sıcaklık bandına (15 °C altı, 15-20, 20-25, 25 °C ve üstü) ve yağışlı/kuru güne göre iptal oranı, otel bazında. Yağışlı ve kuru günler arasındaki fark küçüktür (City Hotel %42,0 ve %40,7; Resort Hotel %27,7 ve %28,2).
 3. **Havalimanı Gecikmesi:** gecikme kaydı olan ve olmayan günlerde otel bazında iptal oranı, havalimanı bazında uçuş başına ortalama varış gecikmesi (dakika) ve aylık ortalama günlük toplam gecikme (dakika). Faro (LPFR) verisi seyrek olduğu için yorumlarken dikkatli olunmalıdır.
+4. **Rezervasyon Özellikleri:** toplam rezervasyon, iptal oranı, kayıp gelir (16.721.837 €) ve ortalama rezervasyon süresi (104,1 gün) kartları; rezervasyonların son durumunu gösteren halka grafik (konakladı %62,9, iptal etti %36,1, gelmedi %1,0); pazar segmentine göre rezervasyon, iptal, iptal oranı (ısı haritası) ve kayıp gelir tablosu; rezervasyonun varıştan ne kadar önce yapıldığına göre rezervasyon sayısı (çubuk) ve iptal oranı (çizgi) kombine grafiği. İptal oranı 0-6 gün önceden yapılan rezervasyonlarda %9,4 iken 180 gün ve üstünde %56,8'e çıkar. Bu sayfadaki etiketler (rezervasyon durumu, pazar segmenti, süre aralıkları) Looker Studio'da hesaplanmış alanlarla Türkçeleştirilmiştir.
 
 **Sayfa 1: Genel Özet**
 
@@ -117,6 +119,10 @@ Rapor üç sayfadan oluşur. Sayfalarda **hotel**, **tarih aralığı** ve **is_
 **Sayfa 3: Havalimanı Gecikmesi**
 
 ![Havalimanı Gecikmesi](../../dashboard/sayfa3_havalimani_gecikmesi.png)
+
+**Sayfa 4: Rezervasyon Özellikleri**
+
+![Rezervasyon Özellikleri](../../dashboard/sayfa4_rezervasyon_ozellikleri.png)
 
 ### Paylaşım
 Rapor sahibi Elif'tir. Takım üyeleri düzenleyici, bağlantıyı bilen herkes görüntüleyici yetkisine sahiptir.
