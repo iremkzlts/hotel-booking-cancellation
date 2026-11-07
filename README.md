@@ -41,7 +41,7 @@ Predict whether a booking will be cancelled (is_canceled) and serve the model in
 │       ├── models/intermediate/
 │       ├── models/marts/
 │       ├── tests/
-│       └── VERI_SOZLUGU_*.md  # data dictionaries
+│       └── VERI_SOZLUGU.md  # data dictionaries
 ├── dashboard/                # dashboard screenshots and dbt lineage graph
 ├── requirements.txt
 └── README.md

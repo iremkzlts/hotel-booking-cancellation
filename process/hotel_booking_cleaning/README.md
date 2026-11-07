@@ -70,12 +70,9 @@ Satır sayısı: 119.390 ham satırdan 1 negatif fiyatlı, 180 misafirsiz ve 1 u
 
 ## Belgeler
 
-| Belge | Kapsam | Hazırlayan |
-|---|---|---|
-| [VERI_SOZLUGU_HOTEL_BOOKING.md](VERI_SOZLUGU_HOTEL_BOOKING.md) | Otel rezervasyon verisi | Esma Gül Polat |
-| [VERI_SOZLUGU_WEATHER.md](VERI_SOZLUGU_WEATHER.md) | Hava durumu verisi | Zehra Aktaş |
-| [VERI_SOZLUGU_EUROCONTROL.md](VERI_SOZLUGU_EUROCONTROL.md) | Havalimanı gecikme verisi | İrem Kızıltaş |
-| [VERI_SOZLUGU_MARTS.md](VERI_SOZLUGU_MARTS.md) | Mart katmanı | Elif Uyar |
+| Belge | Kapsam |
+|---|---|
+| [VERI_SOZLUGU.md](VERI_SOZLUGU.md) | Tüm veri kaynakları (otel, hava durumu, havalimanı) ve mart tabloları. Bölüm sorumluları belgenin sonundadır |
 
 Model ve sütun açıklamaları `dbt docs generate` ile de görülebilir.
 
