@@ -83,6 +83,13 @@ dbt docs serve
 
 *(Note: `dbt run` also rewrites the mart CSV files in `data/processed/marts/`.)*
 
+### Data Preparation Notebook (Google Colab)
+
+The data quality checks behind the dbt cleaning decisions (missing values, duplicates, invalid values, outliers) are documented in a Google Colab notebook. It reads the raw CSV directly from this repository and ends with a check that the cleaned row count matches the dbt staging model (119,208 rows).
+
+- Notebook (Google Drive folder): https://drive.google.com/drive/folders/11qfyyOaEf_oipgr1Sr7U9jE-gKVuZ7yC
+- To run: open `otel_rezervasyon_projesi.ipynb` in Colab and choose *Runtime → Restart and run all*.
+
 ---
 
 ## Dashboard
